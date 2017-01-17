@@ -1,5 +1,6 @@
 import org.junit.Test;
 import utils.Base;
+
 import static pages.Pages.*;
 
 /**
@@ -14,7 +15,7 @@ public class GoogleTest extends Base {
     }
 
     @Test
-    public void openGmail() throws Exception {
+    public void openGmailTest() {
         google.goTo();
         google.openGmail();
     }

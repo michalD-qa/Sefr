@@ -47,7 +47,6 @@ public class Google {
         //Actions.waitForHidden(bigLogo);
     }
 
-
     /**
      * Opens gmail
      */
