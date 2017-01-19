@@ -18,15 +18,17 @@ public class TestReport {
     private Screenshot screenshot = new Screenshot();
     private static ExtentReports extentReports;
     private static ExtentTest test;
+    private static boolean addExceptionToLog;
 
     /**
-     * Class constructor
-     * Creates new test instance
+     * Creates new test report
      *
-     * @param testName
+     * @param testName          name of the test
+     * @param addExceptionToLog if true, adds exception to the test log
      */
-    protected TestReport(String testName) {
+    protected TestReport(String testName, boolean addExceptionToLog) {
         test = extentReports.startTest(testName);
+        TestReport.addExceptionToLog = addExceptionToLog;
     }
 
     /**
@@ -42,11 +44,10 @@ public class TestReport {
     /**
      * Setups new test report and adds system info to it
      *
-     * @param replaceExisting
      */
-    protected static void setupTestReport(boolean replaceExisting) {
+    protected static void setupTestReport() {
         try {
-            extentReports = new ExtentReports(getExtentReportFile(), replaceExisting);
+            extentReports = new ExtentReports(getExtentReportFile(), false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +99,9 @@ public class TestReport {
      * @param t      exception
      */
     public static void addLog(LogStatus status, Throwable t) {
-        getTest().log(status, t);
+        if (addExceptionToLog) {
+            getTest().log(status, t);
+        }
     }
 
     /**

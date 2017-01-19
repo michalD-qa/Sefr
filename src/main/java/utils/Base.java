@@ -7,7 +7,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Created by Adam on 2016-12-18.
@@ -23,7 +22,7 @@ public class Base {
     @BeforeClass
     public static void beforeClass() {
         initializeDriver();
-        TestReport.setupTestReport(false);
+        TestReport.setupTestReport();
     }
 
     @Before
@@ -60,33 +59,36 @@ public class Base {
     }
 
     private static void closeDriver() {
-        //close browser window
-        driver.close();
-        driver.quit();
+        if (driver != null) {
+            //close browser window
+            driver.close();
+            //close driver instance
+            driver.quit();
+        }
     }
 
     private void setTestReportDetails(String testName) {
-        report = new TestReport(testName);
+        report = new TestReport(testName, true);
     }
 
     private static void handlingDriver() {
         String browser;
         browser = Helper.readProperties().getProperty("browser");
-        System.setProperty("webdriver.gecko.driver","drivers/geckodriver.exe");
+        System.setProperty(Constant.GECKO_DRIVER_PROPERTY, "drivers/geckodriver.exe");
         switch (browser.toLowerCase()) {
             case "firefox":
                 driver = new FirefoxDriver();
                 break;
             case "chrome":
-                System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+                System.setProperty(Constant.CHROME_DRIVER_PROPERTY, "drivers/chromedriver.exe");
                 driver = new ChromeDriver();
                 break;
             case "ie":
-                System.setProperty("webdriver.ie.driver","drivers/IEDriverServer.exe");
+                System.setProperty(Constant.IE_DRIVER_PROPERTY, "drivers/IEDriverServer.exe");
                 driver = new InternetExplorerDriver();
                 break;
             case "phantom":
-                System.setProperty("phantomjs.binary.path","drivers/phantomjs-2.1.1-windows/bin/phantomjs.exe");
+                System.setProperty(Constant.PHANTOMJS_BINARY_PROPERTY, "drivers/phantomjs-2.1.1-windows/bin/phantomjs.exe");
                 driver = new PhantomJSDriver();
                 break;
             default:

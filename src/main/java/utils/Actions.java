@@ -91,10 +91,11 @@ public abstract class Actions {
     /**
      * Waits for text presence in element
      *
-     * @param element WebElement
-     * @param text    to be present
+     * @param element              WebElement
+     * @param text                 to be present
+     * @param throwErrorIfNotFound if true, throws error when text not found
      */
-    public static void waitForTextOnElement(WebElement element, String text) {
+    public static void waitForTextOnElement(WebElement element, String text, boolean throwErrorIfNotFound) {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
             getWait().until(ExpectedConditions.textToBePresentInElement(element, text));
@@ -102,7 +103,7 @@ public abstract class Actions {
         } catch (TimeoutException e) {
             TestReport.addLog(LogStatus.ERROR, "Text \"" + text + "\" not present on " + Helper.getElementLocator(element));
             TestReport.addLog(LogStatus.INFO, e);
-            throw e;
+            if (throwErrorIfNotFound) throw e;
         }
     }
 
