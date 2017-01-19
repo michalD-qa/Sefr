@@ -1,6 +1,5 @@
 import org.junit.Test;
 import utils.Base;
-
 import static pages.Pages.*;
 
 /**

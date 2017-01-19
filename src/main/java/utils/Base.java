@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Created by Adam on 2016-12-18.
@@ -40,7 +41,7 @@ public class Base {
     @AfterClass
     public static void afterClass() {
         TestReport.endTestReport();
-        closeDriver();
+        //closeDriver();
     }
 
     /**
@@ -71,17 +72,21 @@ public class Base {
     private static void handlingDriver() {
         String browser;
         browser = Helper.readProperties().getProperty("browser");
+        System.setProperty("webdriver.gecko.driver","drivers/geckodriver.exe");
         switch (browser.toLowerCase()) {
             case "firefox":
                 driver = new FirefoxDriver();
                 break;
             case "chrome":
+                System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
                 driver = new ChromeDriver();
                 break;
             case "ie":
+                System.setProperty("webdriver.ie.driver","drivers/IEDriverServer.exe");
                 driver = new InternetExplorerDriver();
                 break;
             case "phantom":
+                System.setProperty("phantomjs.binary.path","drivers/phantomjs-2.1.1-windows/bin/phantomjs.exe");
                 driver = new PhantomJSDriver();
                 break;
             default:

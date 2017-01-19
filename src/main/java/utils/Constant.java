@@ -7,7 +7,7 @@ package utils;
  */
 public class Constant {
     public static final long TIMEOUT_IN_SECONDS = 5;
-    public static final String GOOGLE_URL = "https://www.google.pl/";
+    public static final String GOOGLE_URL = "http://www.google.pl/";
     public static final String DATE_PATTERN = "yyyyMMddHHmmss";
     public static final String PROPERTIES_FILENAME = "test.properties";
 }
