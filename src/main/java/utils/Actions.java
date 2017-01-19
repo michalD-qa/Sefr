@@ -23,10 +23,10 @@ public abstract class Actions {
      *
      * @param url to be
      */
-    public static void waitForUrlToBe(String url) {
+    public static void waitForUrlToContain(String url) {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " " + url);
-            getWait().until(ExpectedConditions.urlToBe(url));
+            getWait().until(ExpectedConditions.urlContains(url));
         } catch (TimeoutException e) {
             TestReport.addLog(LogStatus.INFO, e);
             throw e;
@@ -99,18 +99,54 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
             getWait().until(ExpectedConditions.textToBePresentInElement(element, text));
-            TestReport.addLog(LogStatus.INFO, "Text \"" + text + "\" present on " + Helper.getElementLocator(element));
+            TestReport.addLog(LogStatus.INFO, "Text \"" + text + "\" present on element" + Helper.getElementLocator(element));
         } catch (TimeoutException e) {
-            TestReport.addLog(LogStatus.ERROR, "Text \"" + text + "\" not present on " + Helper.getElementLocator(element));
-            TestReport.addLog(LogStatus.INFO, e);
-            if (throwErrorIfNotFound) throw e;
+            TestReport.addLog(LogStatus.ERROR, "Text \"" + text + "\" not present on element" + Helper.getElementLocator(element) + ", found text " + element.getText());
+            if (throwErrorIfNotFound) {
+                TestReport.addLog(LogStatus.INFO, e);
+                throw e;
+            }
+        } catch (NoSuchElementException e1) {
+            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
+            if (throwErrorIfNotFound) {
+                TestReport.addLog(LogStatus.INFO, e1);
+                throw e1;
+            }
+        }
+
+    }
+
+    /**
+     * Waits for text presence in element value
+     *
+     * @param element              WebElement
+     * @param value                value to be present
+     * @param throwErrorIfNotFound if true, throws error when text not found
+     */
+    public static void waitForTextOnElementValue(WebElement element, String value, boolean throwErrorIfNotFound) {
+        try {
+            TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
+            getWait().until(ExpectedConditions.textToBePresentInElementValue(element, value));
+            TestReport.addLog(LogStatus.INFO, "Text \"" + value + "\" present on element value" + Helper.getElementLocator(element));
+        } catch (TimeoutException e) {
+            TestReport.addLog(LogStatus.ERROR, "Text \"" + value + "\" not present on element value" + Helper.getElementLocator(element) + ", text found: " + element.getAttribute("value"));
+            if (throwErrorIfNotFound) {
+                TestReport.addLog(LogStatus.INFO, e);
+                throw e;
+            }
+        } catch (NoSuchElementException e1) {
+            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
+            if (throwErrorIfNotFound) {
+                TestReport.addLog(LogStatus.INFO, e1);
+                throw e1;
+            }
         }
     }
 
     /**
      * Scrolls to element on page
      *
-     * @param element
+     * @param element webelement
      */
     public static void scrollToElement(WebElement element) {
         TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " " + Helper.getElementLocator(element));
@@ -163,7 +199,7 @@ public abstract class Actions {
     public static void openPage(String url) {
         Base.getInstance().manage().timeouts().pageLoadTimeout(Constant.TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         Base.getInstance().get(url);
-        waitForUrlToBe(url);
+        waitForUrlToContain(url);
         TestReport.addLog(LogStatus.INFO, "Opened page " + url);
     }
 }

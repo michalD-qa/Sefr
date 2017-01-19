@@ -6,9 +6,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import java.io.IOException;
 
-import static com.relevantcodes.extentreports.LogStatus.PASS;
-import static com.relevantcodes.extentreports.LogStatus.SKIP;
-import static com.relevantcodes.extentreports.LogStatus.UNKNOWN;
+import static com.relevantcodes.extentreports.LogStatus.*;
 
 /**
  * Created by Adam on 2016-12-19.
@@ -136,6 +134,9 @@ public class TestReport {
                 break;
             case SKIP:
                 addLog(SKIP, "Test skipped");
+                break;
+            case ERROR:
+                addLog(ERROR, "Test contain errors");
                 break;
             default:
                 addLog(UNKNOWN, "Test status unknown");
