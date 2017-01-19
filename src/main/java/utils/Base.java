@@ -41,7 +41,7 @@ public class Base {
     @AfterClass
     public static void afterClass() {
         TestReport.endTestReport();
-        //closeDriver();
+        closeDriver();
     }
 
     /**
