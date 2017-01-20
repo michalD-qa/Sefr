@@ -6,7 +6,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.concurrent.*;
 
 /**
@@ -99,21 +98,24 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
             getWait().until(ExpectedConditions.textToBePresentInElement(element, text));
+            Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Text \"" + text + "\" present on element" + Helper.getElementLocator(element));
         } catch (TimeoutException e) {
-            TestReport.addLog(LogStatus.ERROR, "Text \"" + text + "\" not present on element" + Helper.getElementLocator(element) + ", found text " + element.getText());
+            try {
+                TestReport.addLog(LogStatus.ERROR, "Text \"" + text + "\" not present on element" + Helper.getElementLocator(element) + ", found text " + element.getText());
+                Helper.highlight(element);
+            } catch (NoSuchElementException e1) {
+                TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
+                if (throwErrorIfNotFound) {
+                    TestReport.addLog(LogStatus.INFO, e1);
+                    throw e1;
+                }
+            }
             if (throwErrorIfNotFound) {
                 TestReport.addLog(LogStatus.INFO, e);
                 throw e;
             }
-        } catch (NoSuchElementException e1) {
-            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
-            if (throwErrorIfNotFound) {
-                TestReport.addLog(LogStatus.INFO, e1);
-                throw e1;
-            }
         }
-
     }
 
     /**
@@ -127,18 +129,22 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
             getWait().until(ExpectedConditions.textToBePresentInElementValue(element, value));
+            Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Text \"" + value + "\" present on element value" + Helper.getElementLocator(element));
         } catch (TimeoutException e) {
-            TestReport.addLog(LogStatus.ERROR, "Text \"" + value + "\" not present on element value" + Helper.getElementLocator(element) + ", text found: " + element.getAttribute("value"));
+            try {
+                TestReport.addLog(LogStatus.ERROR, "Text \"" + value + "\" not present on element value" + Helper.getElementLocator(element) + ", text found: " + element.getAttribute("value"));
+                Helper.highlight(element);
+            } catch (NoSuchElementException e1) {
+                TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
+                if (throwErrorIfNotFound) {
+                    TestReport.addLog(LogStatus.INFO, e1);
+                    throw e1;
+                }
+            }
             if (throwErrorIfNotFound) {
                 TestReport.addLog(LogStatus.INFO, e);
                 throw e;
-            }
-        } catch (NoSuchElementException e1) {
-            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
-            if (throwErrorIfNotFound) {
-                TestReport.addLog(LogStatus.INFO, e1);
-                throw e1;
             }
         }
     }
@@ -164,6 +170,7 @@ public abstract class Actions {
     public static void click(WebElement element) {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
+            Helper.highlight(element);
             element.click();
             TestReport.addLog(LogStatus.INFO, "Clicked on element " + Helper.getElementLocator(element));
         } catch (NoSuchElementException e) {
@@ -183,6 +190,7 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " to element " + Helper.getElementLocator(element));
             element.sendKeys(charSequence);
+            Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Send \"" + charSequence + "\" to element" + Helper.getElementLocator(element));
         } catch (NoSuchElementException e) {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "not found");
@@ -199,7 +207,7 @@ public abstract class Actions {
     public static void openPage(String url) {
         Base.getInstance().manage().timeouts().pageLoadTimeout(Constant.TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         Base.getInstance().get(url);
-        waitForUrlToContain(url);
+        //waitForUrlToContain(url);
         TestReport.addLog(LogStatus.INFO, "Opened page " + url);
     }
 }

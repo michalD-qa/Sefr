@@ -4,7 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.*;
-
 import static utils.Actions.*;
 
 /**
@@ -27,6 +26,12 @@ public class Google {
 
     @FindBy(linkText = "Gmail")
     private WebElement gmail;
+
+    @FindBy(id = "gmail-create-account")
+    private WebElement createAccount;
+
+    @FindBy(id = "next")
+    private WebElement next;
 
     /**
      * Opens google main page
@@ -53,5 +58,6 @@ public class Google {
     public void openGmail() {
         waitForClickable(gmail);
         click(gmail);
+        waitForVisible(next);
     }
 }

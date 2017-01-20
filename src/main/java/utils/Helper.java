@@ -1,5 +1,6 @@
 package utils;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
@@ -47,5 +48,15 @@ public class Helper {
             e.printStackTrace();
         }
         return prop;
+    }
+
+    /**
+     * Highlights element on the page
+     *
+     * @param element webelement to highlight
+     */
+    public static void highlight(WebElement element) {
+        JavascriptExecutor jse = (JavascriptExecutor) Base.getInstance();
+        jse.executeScript("arguments[0].style.border='5px solid red'", element);
     }
 }

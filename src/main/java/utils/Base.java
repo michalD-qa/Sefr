@@ -82,6 +82,11 @@ public class Base {
             case "chrome":
                 System.setProperty(Constant.CHROME_DRIVER_PROPERTY, "drivers/chromedriver.exe");
                 driver = new ChromeDriver();
+                try {
+                    Thread.sleep(500);  //to avoid chromedriver issue
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "ie":
                 System.setProperty(Constant.IE_DRIVER_PROPERTY, "drivers/IEDriverServer.exe");
