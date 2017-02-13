@@ -96,9 +96,6 @@ public class Base {
                 System.setProperty(Constant.PHANTOMJS_BINARY_PROPERTY, "drivers/phantomjs-2.1.1-windows/bin/phantomjs.exe");
                 driver = new PhantomJSDriver();
                 break;
-            default:
-                driver = new FirefoxDriver();
-                break;
         }
     }
 }

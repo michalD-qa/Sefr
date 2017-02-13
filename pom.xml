@@ -18,7 +18,64 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+    <profiles>
+        <profile>
+            <id>phantom</id>
+            <activation>
+                <property>
+                    <name>browser</name>
+                    <value>phantom</value>
+                </property>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <browser>phantom</browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>chrome</id>
+            <activation>
+                <property>
+                    <name>browser</name>
+                    <value>chrome</value>
+                </property>
+            </activation>
+            <properties>
+                <browser>chrome</browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>ie</id>
+            <activation>
+                <property>
+                    <name>browser</name>
+                    <value>ie</value>
+                </property>
+            </activation>
+            <properties>
+                <browser>ie</browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>firefox</id>
+            <activation>
+                <property>
+                    <name>browser</name>
+                    <value>firefox</value>
+                </property>
+            </activation>
+            <properties>
+                <browser>firefox</browser>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

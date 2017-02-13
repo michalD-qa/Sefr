@@ -30,8 +30,8 @@ public class Google {
     @FindBy(id = "gmail-create-account")
     private WebElement createAccount;
 
-    @FindBy(id = "next")
-    private WebElement next;
+    @FindBy(className = "gmail-nav__logo gmail-logo")
+    private WebElement gmailLogo;
 
     /**
      * Opens google main page
@@ -58,6 +58,6 @@ public class Google {
     public void openGmail() {
         waitForClickable(gmail);
         click(gmail);
-        waitForVisible(next);
+        waitForVisible(gmailLogo);
     }
 }

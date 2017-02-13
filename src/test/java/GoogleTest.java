@@ -12,10 +12,4 @@ public class GoogleTest extends Base {
         google.goTo();
         google.find("java");
     }
-
-    @Test
-    public void openGmailTest() {
-        google.goTo();
-        google.openGmail();
-    }
 }

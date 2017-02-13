@@ -14,4 +14,6 @@ public class Constant {
     public static final String CHROME_DRIVER_PROPERTY = "webdriver.chrome.driver";
     public static final String IE_DRIVER_PROPERTY = "webdriver.ie.driver";
     public static final String PHANTOMJS_BINARY_PROPERTY = "phantomjs.binary.path";
+    public static final int NR_OF_COLUMNS = 20;
+    public static final int NR_OF_ROWS = 20;
 }

@@ -13,15 +13,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class Excel {
 
-
-    private static final String BFC = "C:/Users/akonopka/Desktop/BFC.xlsx";
-
-//    public static void main(String[] args) throws IOException {
-//
-//        XSSFSheet dmReporting = getSpreadSheet(BFC, Constant.DM_REPORTING_SHEET);
-//        getChaptersForReport(dmReporting, "L010.007");
-//    }
-
     /**
      * Get spread sheet from given path and sheet index
      *
@@ -39,44 +30,13 @@ public class Excel {
     }
 
     /**
-     * Gets corresponding chapters for specified report name from excel documentation file
+     * Gets row from given spreadsheet
      *
-     * @param spreadSheet spreadsheet for reading chapters
-     * @param reportName  name of report to read chapters
-     * @return list of chapters corresponding to given report
-     * @throws IOException
+     * @param spreadSheet
+     * @param rowNr
+     * @return
      */
-    public static List<String> getChaptersForReport(XSSFSheet spreadSheet, String reportName) throws IOException {
-
-        List<String> chaptersToCheck = new ArrayList<>();
-
-        //get all reports name
-        Map<String, String> reports = getRow(spreadSheet, Constant.REPORTS_ROW);
-
-        //get all chapters name
-        Map<Integer, String> chapters = getColumn(spreadSheet, Constant.CHAPTERS_COLUMN);
-
-        String columnWithReport = null;
-        //get column of report by Name
-        for (String o : reports.keySet()) {
-            if (reports.get(o).equals(reportName)) {
-                columnWithReport = o;
-            }
-        }
-
-        //get chapters for corresponding report
-        Map<Integer, String> chapterForReport = null;
-        if (columnWithReport != null) {
-            chapterForReport = getColumn(spreadSheet, columnWithReport.charAt(0));
-
-            for (int i : chapterForReport.keySet()) {
-                if (chapterForReport.get(i).equals("Y")) chaptersToCheck.add(chapters.get(i));
-            }
-        }
-        return chaptersToCheck;
-    }
-
-    private static Map<String, String> getRow(XSSFSheet spreadSheet, int rowNr) {
+    public static Map<String, String> getRow(XSSFSheet spreadSheet, int rowNr) {
         Map<String, String> rowData = new HashMap<>();
         char alphabet = 'A';
         Row r = spreadSheet.getRow(rowNr - 1);
@@ -92,7 +52,13 @@ public class Excel {
         return rowData;
     }
 
-    private static Map<Integer, String> getColumn(XSSFSheet spreadSheet, char column) {
+    /**
+     * Gets column from given spreadsheet
+     * @param spreadSheet
+     * @param column
+     * @return
+     */
+    public static Map<Integer, String> getColumn(XSSFSheet spreadSheet, char column) {
         Map<Integer, String> columnData = new HashMap<>();
         int asciiColumn = (int) column;
         int rowStart = Math.min(0, spreadSheet.getFirstRowNum());
