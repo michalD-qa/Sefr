@@ -32,7 +32,7 @@ public class Base {
 
     @After
     public void afterEachTest() {
-        report.addScreenshotToReport();
+        TestReport.addScreenshotToReport();
         report.setRunStatus();
         report.endTest();
     }

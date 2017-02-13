@@ -35,13 +35,12 @@ public class TestReport {
      *
      * @return
      */
-    protected static ExtentTest getTest() {
+    public static ExtentTest getTest() {
         return test;
     }
 
     /**
      * Setups new test report and adds system info to it
-     *
      */
     protected static void setupTestReport() {
         try {
@@ -147,8 +146,8 @@ public class TestReport {
     /**
      * Adds screenshot to test report
      */
-    protected void addScreenshotToReport() {
-        addLog(LogStatus.INFO, "Snapshot from last step: " + getTest().addScreenCapture(screenshot.captureScreenShot()));
+    public static void addScreenshotToReport() {
+        addLog(LogStatus.INFO, "Snapshot from last step: " + getTest().addScreenCapture(new Screenshot().captureScreenShot()));
     }
 
 }

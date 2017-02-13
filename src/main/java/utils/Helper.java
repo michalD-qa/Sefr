@@ -1,5 +1,6 @@
 package utils;
 
+import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
@@ -58,5 +59,16 @@ public class Helper {
     public static void highlight(WebElement element) {
         JavascriptExecutor jse = (JavascriptExecutor) Base.getInstance();
         jse.executeScript("arguments[0].style.border='5px solid red'", element);
+    }
+
+    /**
+     * Decrypts Base64hash string
+     *
+     * @param code string to decode
+     * @return
+     */
+    public String decrypt(String code) {
+        byte[] valueDecoded = Base64.decodeBase64(code.getBytes());
+        return new String(valueDecoded);
     }
 }

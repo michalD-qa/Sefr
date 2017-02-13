@@ -5,7 +5,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.concurrent.*;
 
 /**
@@ -54,11 +56,11 @@ public abstract class Actions {
      *
      * @param element WebElement
      */
-    public static void waitForHidden(WebElement element) {
+    public static void waitForNotVisible(WebElement element) {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
             getWait().until(ExpectedConditions.not(ExpectedConditions.visibilityOf(element)));
-            TestReport.addLog(LogStatus.INFO, "Element " + Helper.getElementLocator(element) + " is hidden");
+            TestReport.addLog(LogStatus.INFO, "Element " + Helper.getElementLocator(element) + " is not visible");
         } catch (TimeoutException e) {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "is visible");
             TestReport.addLog(LogStatus.INFO, e);
@@ -67,6 +69,33 @@ public abstract class Actions {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "not found");
             TestReport.addLog(LogStatus.INFO, e1);
             throw e1;
+        }
+    }
+
+    /**
+     * Waits for element to be not displayed
+     * @param element
+     */
+    public static void waitForNotDisplayed(WebElement element) {
+        int i = 0;
+        boolean isPresent = true;
+        TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
+        do {
+            try {
+                isPresent = element.isDisplayed();
+            } catch (NoSuchElementException e) {
+                TestReport.addLog(LogStatus.INFO, "Element " + Helper.getElementLocator(element) + " is not displayed");
+                break;
+            }
+            i++;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (i < (int) Constant.TIMEOUT_IN_SECONDS * 5);
+        if (i == (int) Constant.TIMEOUT_IN_SECONDS * 5 && isPresent) {
+            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "is still present");
         }
     }
 
@@ -192,6 +221,25 @@ public abstract class Actions {
             element.sendKeys(charSequence);
             Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Send \"" + charSequence + "\" to element" + Helper.getElementLocator(element));
+        } catch (NoSuchElementException e) {
+            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "not found");
+            TestReport.addLog(LogStatus.INFO, e);
+            throw e;
+        }
+    }
+
+    /**
+     * Selects element from dropdown list based on visible text
+     *
+     * @param element WebElement
+     * @param text    to select
+     */
+    public static void selectByVisibleText(WebElement element, String text) {
+        try {
+            TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " to element " + Helper.getElementLocator(element));
+            new Select(element).selectByVisibleText(text);
+            Helper.highlight(element);
+            TestReport.addLog(LogStatus.INFO, "Selected element " + Helper.getElementLocator(element) + " by text " + text);
         } catch (NoSuchElementException e) {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "not found");
             TestReport.addLog(LogStatus.INFO, e);

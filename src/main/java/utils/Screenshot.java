@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class Screenshot {
 
-    protected String captureScreenShot() {
+    public String captureScreenShot() {
         // Take screenshot and store as a file format
         File src = ((TakesScreenshot) Base.getInstance()).getScreenshotAs(OutputType.FILE);
         String screenshot = Helper.readProperties().getProperty("screenshot") + "Screenshot_" + Helper.getCurrentDate() + ".jpg";
