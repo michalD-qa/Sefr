@@ -33,7 +33,7 @@ public class TestReport {
      * Placeholder for instance of test
      * Needed for adding new log lines in test report
      *
-     * @return
+     * @return instance to extent test
      */
     public static ExtentTest getTest() {
         return test;
@@ -60,7 +60,9 @@ public class TestReport {
     }
 
     private static String getExtentReportFile() throws IOException {
-        return Helper.readProperties().getProperty("report") + "TestReport_" + Helper.getCurrentDate() + ".html";
+        if (Helper.readProperties().getProperty("jenkins").equals("false"))
+            return Helper.readProperties().getProperty("report") + "TestReport_" + Helper.getCurrentDate() + ".html";
+        else return Helper.readProperties().getProperty("report") + "TestReport.html";
     }
 
     /**
@@ -114,7 +116,7 @@ public class TestReport {
     /**
      * Gets status of current test run
      *
-     * @return
+     * @return test run status
      */
     protected LogStatus getRunStatus() {
         return getTest().getRunStatus();

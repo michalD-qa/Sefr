@@ -27,6 +27,18 @@
     </build>
     <profiles>
         <profile>
+            <id>jenkins</id>
+            <activation>
+                <property>
+                    <name>jenkins</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <jenkins>true</jenkins>
+            </properties>
+        </profile>
+        <profile>
             <id>phantom</id>
             <activation>
                 <property>

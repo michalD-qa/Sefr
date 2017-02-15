@@ -43,6 +43,7 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
             getWait().until(ExpectedConditions.visibilityOf(element));
+            Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Element " + Helper.getElementLocator(element) + " is visible");
         } catch (TimeoutException e) {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " is hidden or not found");
@@ -74,7 +75,7 @@ public abstract class Actions {
 
     /**
      * Waits for element to be not displayed
-     * @param element
+     * @param element webelement
      */
     public static void waitForNotDisplayed(WebElement element) {
         int i = 0;
@@ -199,8 +200,8 @@ public abstract class Actions {
     public static void click(WebElement element) {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
-            Helper.highlight(element);
             element.click();
+            Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Clicked on element " + Helper.getElementLocator(element));
         } catch (NoSuchElementException e) {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "not found");
@@ -219,7 +220,6 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " to element " + Helper.getElementLocator(element));
             element.sendKeys(charSequence);
-            Helper.highlight(element);
             TestReport.addLog(LogStatus.INFO, "Send \"" + charSequence + "\" to element" + Helper.getElementLocator(element));
         } catch (NoSuchElementException e) {
             TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + "not found");

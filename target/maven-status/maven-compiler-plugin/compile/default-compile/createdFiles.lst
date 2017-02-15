@@ -1,5 +1,6 @@
 utils\TestReport$1.class
 utils\Helper.class
+utils\Excel.class
 utils\Screenshot.class
 utils\TestReport.class
 utils\Actions.class
