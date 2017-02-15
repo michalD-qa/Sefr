@@ -15,9 +15,9 @@ public class Screenshot {
     public String captureScreenShot() {
         // Take screenshot and store as a file format
         File src = ((TakesScreenshot) Base.getInstance()).getScreenshotAs(OutputType.FILE);
-        String screenshot = Helper.readProperties().getProperty("screenshot") + "Screenshot_" + Helper.getCurrentDate() + ".jpg";
+        String screenshot = "Screenshot_" + Helper.getCurrentDate() + ".jpg";
         try {
-            FileUtils.copyFile(src, new File(screenshot));
+            FileUtils.copyFile(src, new File(Helper.readProperties().getProperty("screenshot") + screenshot));
         } catch (IOException e) {
             e.printStackTrace();
         }
