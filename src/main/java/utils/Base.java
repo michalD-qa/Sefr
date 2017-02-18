@@ -79,8 +79,10 @@ public class Base {
             System.setProperty(Constant.CHROME_DRIVER_PROPERTY, "drivers/windows/chromedriver.exe");
             System.setProperty(Constant.IE_DRIVER_PROPERTY, "drivers/windows/IEDriverServer.exe");
             System.setProperty(Constant.PHANTOMJS_BINARY_PROPERTY, "drivers/windows/phantomjs-2.1.1-windows/bin/phantomjs.exe");
-        } else {
-
+        } else if (system.equals("linux")) {
+            System.setProperty(Constant.GECKO_DRIVER_PROPERTY, "drivers/linux/geckodriver");
+            System.setProperty(Constant.CHROME_DRIVER_PROPERTY, "drivers/linux/chromedriver");
+            System.setProperty(Constant.PHANTOMJS_BINARY_PROPERTY, "drivers/linux/phantomjs-2.1.1-linux-x86_64/bin/phantomjs");
         }
 
         switch (browser.toLowerCase()) {

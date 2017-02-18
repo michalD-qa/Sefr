@@ -100,6 +100,18 @@
                 <system>windows</system>
             </properties>
         </profile>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <property>
+                    <name>system</name>
+                    <value>linux</value>
+                </property>
+            </activation>
+            <properties>
+                <system>linux</system>
+            </properties>
+        </profile>
     </profiles>
     <dependencies>
         <dependency>
