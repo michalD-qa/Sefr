@@ -87,6 +87,19 @@
                 <browser>firefox</browser>
             </properties>
         </profile>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>system</name>
+                    <value>windows</value>
+                </property>
+            </activation>
+            <properties>
+                <system>windows</system>
+            </properties>
+        </profile>
     </profiles>
     <dependencies>
         <dependency>

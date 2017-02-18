@@ -72,15 +72,22 @@ public class Base {
     }
 
     private static void handlingDriver() {
-        String browser;
-        browser = Helper.readProperties().getProperty("browser");
-        System.setProperty(Constant.GECKO_DRIVER_PROPERTY, "drivers/geckodriver.exe");
+        String browser = Helper.readProperties().getProperty("browser");
+        String system = Helper.readProperties().getProperty("system");
+        if (system.equals("windows")) {
+            System.setProperty(Constant.GECKO_DRIVER_PROPERTY, "drivers/windows/geckodriver.exe");
+            System.setProperty(Constant.CHROME_DRIVER_PROPERTY, "drivers/windows/chromedriver.exe");
+            System.setProperty(Constant.IE_DRIVER_PROPERTY, "drivers/windows/IEDriverServer.exe");
+            System.setProperty(Constant.PHANTOMJS_BINARY_PROPERTY, "drivers/windows/phantomjs-2.1.1-windows/bin/phantomjs.exe");
+        } else {
+
+        }
+
         switch (browser.toLowerCase()) {
             case "firefox":
                 driver = new FirefoxDriver();
                 break;
             case "chrome":
-                System.setProperty(Constant.CHROME_DRIVER_PROPERTY, "drivers/chromedriver.exe");
                 driver = new ChromeDriver();
                 try {
                     Thread.sleep(500);  //to avoid chromedriver issue
@@ -89,11 +96,9 @@ public class Base {
                 }
                 break;
             case "ie":
-                System.setProperty(Constant.IE_DRIVER_PROPERTY, "drivers/IEDriverServer.exe");
                 driver = new InternetExplorerDriver();
                 break;
             case "phantom":
-                System.setProperty(Constant.PHANTOMJS_BINARY_PROPERTY, "drivers/phantomjs-2.1.1-windows/bin/phantomjs.exe");
                 driver = new PhantomJSDriver();
                 break;
         }

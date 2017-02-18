@@ -13,7 +13,6 @@ import static com.relevantcodes.extentreports.LogStatus.*;
  */
 public class TestReport {
 
-    private Screenshot screenshot = new Screenshot();
     private static ExtentReports extentReports;
     private static ExtentTest test;
     private static boolean addExceptionToLog;
