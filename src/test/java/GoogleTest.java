@@ -1,5 +1,6 @@
 import org.junit.Test;
 import utils.Base;
+
 import static pages.Pages.*;
 
 /**
@@ -7,9 +8,18 @@ import static pages.Pages.*;
  */
 public class GoogleTest extends Base {
 
+    private static final String QUERY = "java";
+
     @Test
     public void queryForJavaTest() {
+
+        //Given
         google.goTo();
-        google.find("java");
+
+        //When
+        google.find(QUERY);
+
+        //Then
+        google.verifyPageTitleContain(QUERY);
     }
 }

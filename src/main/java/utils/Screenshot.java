@@ -12,6 +12,11 @@ import java.io.IOException;
  */
 public class Screenshot {
 
+    /**
+     * Takes screenshot and saves it as jpg file
+     *
+     * @return screenshot
+     */
     public String captureScreenShot() {
         // Take screenshot and store as a file format
         File src = ((TakesScreenshot) Base.getInstance()).getScreenshotAs(OutputType.FILE);

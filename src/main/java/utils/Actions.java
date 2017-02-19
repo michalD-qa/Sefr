@@ -28,7 +28,26 @@ public abstract class Actions {
         try {
             TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " " + url);
             getWait().until(ExpectedConditions.urlContains(url));
+            TestReport.addLog(LogStatus.INFO, "Url contains: " + url);
         } catch (TimeoutException e) {
+            TestReport.addLog(LogStatus.ERROR, "Url is: " + Base.getInstance().getCurrentUrl() + " but should contains " + url);
+            TestReport.addLog(LogStatus.INFO, e);
+            throw e;
+        }
+    }
+
+    /**
+     * Waits for page title to contains string
+     *
+     * @param pageTitle string to contain in page title
+     */
+    public static void waitForPageTitleContain(String pageTitle) {
+        try {
+            TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " " + pageTitle);
+            getWait().until(ExpectedConditions.titleContains(pageTitle));
+            TestReport.addLog(LogStatus.INFO, "Page title contains: " + pageTitle);
+        } catch (TimeoutException e) {
+            TestReport.addLog(LogStatus.ERROR, "Page title is: " + Base.getInstance().getTitle() + " but should contain: " + pageTitle);
             TestReport.addLog(LogStatus.INFO, e);
             throw e;
         }
@@ -75,6 +94,7 @@ public abstract class Actions {
 
     /**
      * Waits for element to be not displayed
+     *
      * @param element webelement
      */
     public static void waitForNotDisplayed(WebElement element) {
@@ -182,7 +202,7 @@ public abstract class Actions {
     /**
      * Scrolls to element on page
      *
-     * @param element webelement
+     * @param element webElement
      */
     public static void scrollToElement(WebElement element) {
         TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " " + Helper.getElementLocator(element));
@@ -255,7 +275,6 @@ public abstract class Actions {
     public static void openPage(String url) {
         Base.getInstance().manage().timeouts().pageLoadTimeout(Constant.TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
         Base.getInstance().get(url);
-        //waitForUrlToContain(url);
         TestReport.addLog(LogStatus.INFO, "Opened page " + url);
     }
 }

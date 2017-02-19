@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.*;
+
 import static utils.Actions.*;
 
 /**
@@ -49,7 +50,6 @@ public class Google {
     public void find(String query) {
         waitForVisible(queryField);
         sendKeys(queryField, query);
-        //Actions.waitForHidden(bigLogo);
     }
 
     /**
@@ -60,4 +60,16 @@ public class Google {
         click(gmail);
         waitForVisible(gmailLogo);
     }
+
+    /**
+     * Verifies that paget title contains string
+     *
+     * @param pageTitle string to contains on page title
+     */
+    public void verifyPageTitleContain(String pageTitle) {
+        waitForPageTitleContain(pageTitle);
+        assert (Base.getInstance().getTitle().contains(pageTitle));
+    }
+
+
 }

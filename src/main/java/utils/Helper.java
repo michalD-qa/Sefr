@@ -15,10 +15,21 @@ import java.util.Properties;
  */
 public class Helper {
 
+    /**
+     * Gets current date
+     *
+     * @return current data as string
+     */
     protected static String getCurrentDate() {
         return new SimpleDateFormat(Constant.DATE_PATTERN).format(Calendar.getInstance().getTime());
     }
 
+    /**
+     * Gets element locator
+     *
+     * @param element WebElement
+     * @return element locator as string
+     */
     protected static String getElementLocator(WebElement element) {
         String info = element.toString();
         info = info.substring(0, info.length() - 1);
@@ -28,7 +39,7 @@ public class Helper {
     /**
      * Gets name of method according to given depth
      *
-     * @return
+     * @return method name as string
      */
     public static String getMethodName() {
         return Thread.currentThread().getStackTrace()[2].getMethodName();
@@ -65,7 +76,7 @@ public class Helper {
      * Decrypts Base64hash string
      *
      * @param code string to decode
-     * @return
+     * @return decrypted code as string
      */
     public String decrypt(String code) {
         byte[] valueDecoded = Base64.decodeBase64(code.getBytes());
