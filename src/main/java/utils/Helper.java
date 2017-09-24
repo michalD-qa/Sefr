@@ -1,8 +1,7 @@
 package utils;
 
 import org.apache.commons.codec.binary.Base64;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,8 +67,17 @@ public class Helper {
      * @param element webelement to highlight
      */
     public static void highlight(WebElement element) {
-        JavascriptExecutor jse = (JavascriptExecutor) Base.getInstance();
-        jse.executeScript("arguments[0].style.border='5px solid red'", element);
+        Actions.getWait().until((WebDriver d) -> {
+            try {
+                JavascriptExecutor jse = (JavascriptExecutor) Base.getInstance();
+                jse.executeScript("arguments[0].style.border='5px solid red'", element);
+                return true;
+            } catch (NoSuchElementException e) {
+                return false;
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
     }
 
     /**

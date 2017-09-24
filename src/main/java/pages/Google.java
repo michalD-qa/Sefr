@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -48,15 +49,14 @@ public class Google {
      * @param query
      */
     public void find(String query) {
-        waitForVisible(queryField);
-        sendKeys(queryField, query);
+        sendKeys(queryField, query + Keys.ENTER);
+        waitForText(queryField, query, false);
     }
 
     /**
      * Opens gmail
      */
     public void openGmail() {
-        waitForClickable(gmail);
         click(gmail);
         waitForVisible(gmailLogo);
     }
