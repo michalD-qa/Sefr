@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -19,6 +20,17 @@ public abstract class Actions {
 
     protected static WebDriverWait getWait() {
         return new WebDriverWait(Base.getInstance(), Constant.TIMEOUT_IN_SECONDS);
+    }
+
+    /**
+     * Opens page using provided url
+     *
+     * @param url of page to be opened
+     */
+    public static void openPage(String url) {
+        Base.getInstance().manage().timeouts().pageLoadTimeout(Constant.TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+        Base.getInstance().get(url);
+        TestReport.addLog(LogStatus.INFO, "Opened page " + url);
     }
 
     /**
@@ -90,7 +102,6 @@ public abstract class Actions {
             TestReport.addLog(LogStatus.INFO, e1);
             throw e1;
         }
-
     }
 
     /**
@@ -142,6 +153,69 @@ public abstract class Actions {
     }
 
     /**
+     * Waits for text presence in element
+     *
+     * @param element WebElement
+     * @param text    to be present
+     */
+    public static void waitForText(WebElement element, String text) {
+        waitForText(element, text, true);
+    }
+
+    /**
+     * Waits for text case insensitive and trimmed to be found on WebElement
+     *
+     * @param element              WebElement
+     * @param text                 trimmed and case insensitive text to be found
+     * @param throwErrorIfNotFound if true, throws error when text not found
+     */
+    public static void waitForTextCaseInsensitive(WebElement element, String text, boolean throwErrorIfNotFound) {
+        waitForVisible(element);
+        try {
+            TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " element " + Helper.getElementLocator(element));
+            getWait().until((WebDriver d) -> {
+                try {
+                    Helper.highlight(element);
+                    if (element.getText().trim().toLowerCase().contains(text.trim().toLowerCase())) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (StaleElementReferenceException e) {
+                    return true;
+                }
+            });
+            Helper.highlight(element);
+            TestReport.addLog(LogStatus.INFO, "Text \"" + text + "\" present on element" + Helper.getElementLocator(element));
+        } catch (TimeoutException e) {
+            try {
+                TestReport.addLog(LogStatus.ERROR, "Text \"" + text + "\" not present on element" + Helper.getElementLocator(element) + ", found text " + element.getText());
+                Helper.highlight(element);
+            } catch (NoSuchElementException e1) {
+                TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(element) + " not found");
+                if (throwErrorIfNotFound) {
+                    TestReport.addLog(LogStatus.INFO, e1);
+                    throw e1;
+                }
+            }
+            if (throwErrorIfNotFound) {
+                TestReport.addLog(LogStatus.INFO, e);
+                throw e;
+            }
+        }
+    }
+
+    /**
+     * Waits for text case insensitive and trimmed to be found on WebElement
+     *
+     * @param element WebElement
+     * @param text    trimmed and case insensitive text to be found
+     */
+    public static void waitForTextCaseInsensitive(WebElement element, String text) {
+        waitForTextCaseInsensitive(element, text, true);
+    }
+
+    /**
      * Waits for value presence in element
      *
      * @param element              WebElement
@@ -170,6 +244,16 @@ public abstract class Actions {
                 throw e;
             }
         }
+    }
+
+    /**
+     * Waits for value presence in element
+     *
+     * @param element WebElement
+     * @param value   value to be present
+     */
+    public static void waitForValue(WebElement element, String value) {
+        waitForValue(element, value, true);
     }
 
     /**
@@ -269,13 +353,55 @@ public abstract class Actions {
     }
 
     /**
-     * Opens page using provided url
+     * Wait for each WebElement from list to be visible
      *
-     * @param url of page to be opened
+     * @param elements WebElements list
      */
-    public static void openPage(String url) {
-        Base.getInstance().manage().timeouts().pageLoadTimeout(Constant.TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
-        Base.getInstance().get(url);
-        TestReport.addLog(LogStatus.INFO, "Opened page " + url);
+    public static void waitForElements(List<WebElement> elements) {
+        try {
+            TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " elements " + Helper.getElementLocator(elements));
+            getWait().until(ExpectedConditions.visibilityOfAllElements(elements));
+            for (WebElement element : elements) {
+                Helper.highlight(element);
+            }
+            TestReport.addLog(LogStatus.INFO, "Element " + Helper.getElementLocator(elements) + " is visible");
+        } catch (TimeoutException e) {
+            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(elements) + " is hidden or not found");
+            TestReport.addLog(LogStatus.INFO, e);
+            throw e;
+        }
+    }
+
+    /**
+     * Waits for element with text to be visible on WebElements list
+     *
+     * @param elements WebElements list
+     * @param text     to be found on WebElement
+     */
+    public static void waitForElementWithTextOnList(List<WebElement> elements, String text) {
+        waitForElements(elements);
+        try {
+            TestReport.addLog(LogStatus.INFO, Helper.getMethodName() + " elements " + Helper.getElementLocator(elements));
+            getWait().until((WebDriver d) -> {
+                try {
+                    for (WebElement element : elements) {
+                        Helper.highlight(element);
+                        if (element.getText().equals(text)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    return false;
+                } catch (StaleElementReferenceException e) {
+                    return false;
+                }
+            });
+            TestReport.addLog(LogStatus.INFO, "Found element " + Helper.getElementLocator(elements) + " with text " + text);
+        } catch (NoSuchElementException e) {
+            TestReport.addLog(LogStatus.ERROR, "Element " + Helper.getElementLocator(elements) + "not found");
+            TestReport.addLog(LogStatus.ERROR, e);
+            throw e;
+        }
     }
 }

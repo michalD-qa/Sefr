@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.*;
 
+import java.util.List;
+
 import static utils.Actions.*;
 
 /**
@@ -35,6 +37,9 @@ public class Google {
     @FindBy(className = "gmail-nav__logo gmail-logo")
     private WebElement gmailLogo;
 
+    @FindBy(xpath = "//div[@id='search']//h3")
+    private List<WebElement> resultNameList;
+
     /**
      * Opens google main page
      */
@@ -50,7 +55,7 @@ public class Google {
      */
     public void find(String query) {
         sendKeys(queryField, query + Keys.ENTER);
-        waitForText(queryField, query, false);
+        waitForText(queryField, query);
     }
 
     /**
@@ -66,10 +71,8 @@ public class Google {
      *
      * @param pageTitle string to contains on page title
      */
-    public void verifyPageTitleContain(String pageTitle) {
+    public void verifyResultsDisplayed(String pageTitle) {
         waitForPageTitleContain(pageTitle);
-        assert (Base.getInstance().getTitle().contains(pageTitle));
+        waitForElements(resultNameList);
     }
-
-
 }

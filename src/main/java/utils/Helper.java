@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -31,6 +32,17 @@ public class Helper {
      */
     protected static String getElementLocator(WebElement element) {
         String info = element.toString();
+        info = info.substring(0, info.length() - 1);
+        return " located by " + info.replaceFirst("\\[\\[.*\\)\\]", "").replaceFirst("Proxy.*By.", "");
+    }
+
+    /**
+     * Gets elements list first element locator
+     * @param elements WebElements list
+     * @return first element locator as string
+     */
+    protected static String getElementLocator(List<WebElement> elements) {
+        String info = elements.get(0).toString();
         info = info.substring(0, info.length() - 1);
         return " located by " + info.replaceFirst("\\[\\[.*\\)\\]", "").replaceFirst("Proxy.*By.", "");
     }
@@ -70,7 +82,7 @@ public class Helper {
         Actions.getWait().until((WebDriver d) -> {
             try {
                 JavascriptExecutor jse = (JavascriptExecutor) Base.getInstance();
-                jse.executeScript("arguments[0].style.border='5px solid red'", element);
+                jse.executeScript("arguments[0].style.border='3px solid green'", element);
                 return true;
             } catch (NoSuchElementException e) {
                 return false;

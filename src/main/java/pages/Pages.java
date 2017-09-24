@@ -10,5 +10,6 @@ package pages;
 
 public class Pages {
     public static Google google = new Google();
+    public static Allegro allegro = new Allegro();
 
 }

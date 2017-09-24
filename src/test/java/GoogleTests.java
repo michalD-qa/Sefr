@@ -6,7 +6,7 @@ import static pages.Pages.*;
 /**
  * Created by Adam on 2016-12-18.
  */
-public class GoogleTest extends Base {
+public class GoogleTests extends Base {
 
     private static final String QUERY = "java";
 
@@ -20,6 +20,6 @@ public class GoogleTest extends Base {
         google.find(QUERY);
 
         //Then
-        google.verifyPageTitleContain(QUERY);
+        google.verifyResultsDisplayed(QUERY);
     }
 }
